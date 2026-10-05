@@ -1,0 +1,27 @@
+.registered {
+  max-width: 480px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+h2 { margin: 0 0 0.25rem; }
+.subtitle { margin: 0 0 1.5rem; color: #64748b; }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  label { font-weight: 600; font-size: 0.9rem; }
+}
+
+:host ::ng-deep .p-inputmask { width: 100%; }
+
+.error { color: #dc2626; }
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}

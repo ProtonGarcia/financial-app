@@ -1,0 +1,23 @@
+<div class="registered">
+  <p-card>
+    <h2>Ingresa tus datos</h2>
+    <p class="subtitle">Ingresa tu DUI para continuar</p>
+
+    <div class="field">
+      <label for="dui">DUI</label>
+      <p-inputmask inputId="dui" [(ngModel)]="dui" mask="99999999-9" placeholder="00112345-6"
+                   [autoClear]="false" (ngModelChange)="errorMessage = ''" />
+      @if (errorMessage) {
+        <small class="error">{{ errorMessage }}</small>
+      }
+    </div>
+
+    <div class="actions">
+      <p-button label="Volver" severity="secondary" icon="pi pi-arrow-left" (onClick)="back()" />
+      <p-button label="Continuar" icon="pi pi-arrow-right" iconPos="right" [disabled]="!validFormat || isLoading" [loading]="isLoading"
+                (onClick)="continue()" />
+    </div>
+  </p-card>
+
+  <app-otp-dialog [(visible)]="otpVisible" [phone]="customer?.phone ?? ''" [documentNumber]="customer?.documentNumber ?? ''" (verified)="onVerified()" />
+</div>

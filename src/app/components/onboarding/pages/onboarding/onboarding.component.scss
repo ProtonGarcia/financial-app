@@ -1,0 +1,54 @@
+﻿.onboarding {
+  max-width: 640px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+p-card {
+  display: block;
+  margin-top: 1.5rem;
+}
+
+.cancel {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+:host ::ng-deep {
+  .actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+  }
+
+  .p-inputmask {
+    width: 100%;
+  }
+
+  @media (max-width: 600px) {
+    .p-steps-item {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .p-steps-item:not(.p-steps-item-active) .p-steps-item-label {
+      display: none;
+    }
+
+    .p-steps-item.p-steps-item-active {
+      flex: 3;
+    }
+
+    .p-steps-item-label {
+      font-size: 0.8rem;
+      white-space: normal;
+      text-align: center;
+    }
+
+    .actions {
+      flex-wrap: wrap;
+    }
+  }
+}

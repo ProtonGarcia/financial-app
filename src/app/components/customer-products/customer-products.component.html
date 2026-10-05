@@ -1,0 +1,48 @@
+<div class="products">
+  <header class="header">
+    <div>
+      <h1>Productos del cliente</h1>
+      <p>Consulta tus productos financieros</p>
+    </div>
+    <p-button label="Cerrar sesión" icon="pi pi-sign-out" severity="secondary" [outlined]="true"
+              (onClick)="logout()" />
+  </header>
+
+  @if (loading) {
+    <p class="state"><i class="pi pi-spin pi-spinner"></i> Cargando tus tarjetas...</p>
+  } @else if (errorMessage) {
+    <div class="state">
+      <p>{{ errorMessage }}</p>
+      <p-button label="Reintentar" icon="pi pi-refresh" severity="secondary" (onClick)="loadCards()" />
+    </div>
+  }
+
+  @if (!loading) {
+  <section class="grid">
+    @for (card of cards; track card.numeroTarjeta) {
+      <article class="card">
+        <div class="card-top">
+          <span class="brand">FINANCIAPLUS</span>
+          <span class="status">{{ card.bloqueo ? 'Bloqueada' : card.estado }}</span>
+        </div>
+        <div class="number">{{ card.numeroTarjeta }}</div>
+        <div class="card-bottom">
+          <div>
+            <small>TITULAR</small>
+            <div class="holder">{{ card.beneficiario }}</div>
+          </div>
+          <span class="type">{{ tipoLabel(card.tipoTarjeta) }}</span>
+        </div>
+      </article>
+    }
+
+    <button type="button" class="card add" pTooltip="Solicitar nueva tarjeta" tooltipPosition="top"
+            (click)="openOnboardingDialog()">
+      <i class="pi pi-plus"></i>
+      <span>Solicitar nueva tarjeta</span>
+    </button>
+  </section>
+  }
+
+  <app-card-application-dialog [(visible)]="displayOnboardingDialog" (applicationCompleted)="loadCards()" />
+</div>

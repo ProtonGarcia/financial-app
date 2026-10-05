@@ -1,0 +1,57 @@
+<p-dialog header="Solicitud de Cuenta Digital + Tarjeta" [(visible)]="visible" [modal]="true"
+          [draggable]="false" [resizable]="false" [closable]="!isProcessing" [closeOnEscape]="!isProcessing"
+          [style]="{ width: '48rem', maxWidth: '95vw' }"
+          [contentStyle]="{ 'max-height': '75vh', overflow: 'auto' }" (onHide)="onHide()">
+  @if (application) {
+    @if (view === 'resume') {
+      <div class="resume">
+        <i class="pi pi-info-circle"></i>
+        <p>Encontramos una solicitud pendiente.<br>¿Deseas continuar donde la dejaste?</p>
+        <div class="ca-actions">
+          <p-button label="Nueva solicitud" severity="secondary" (onClick)="newApplication()" />
+          <p-button label="Continuar solicitud" (onClick)="continueApplication()" />
+        </div>
+      </div>
+    } @else {
+      <p-stepper [value]="application.currentStep + 1" class="onboarding-stepper">
+        <p-step-list>
+          @for (label of steps; track label; let i = $index) {
+            <p-step [value]="i + 1">{{ label }}</p-step>
+          }
+        </p-step-list>
+      </p-stepper>
+
+      <div class="step-content">
+        @switch (application.currentStep) {
+          @case (0) {
+            <app-economic-profile [data]="application.economicProfile" (completed)="onEconomicProfile($event)" />
+          }
+          @case (1) {
+            <app-source-of-funds [data]="application.sourceOfFunds" (completed)="onSourceOfFunds($event)"
+                                 (back)="goBack()" />
+          }
+          @case (2) {
+            <app-address-proof [data]="application.addressProof" (completed)="onAddressProof($event)"
+                               (back)="goBack()" />
+          }
+          @case (3) {
+            <app-card-selection [data]="application.cardSelection" (completed)="onCardSelection($event)"
+                                (back)="goBack()" />
+          }
+          @case (4) {
+            <app-application-success [application]="application" [phase]="phase" [tarjeta]="tarjeta"
+                                     [errorMessage]="confirmError" (confirm)="confirm($event)" (back)="goBack()"
+                                     (finished)="finish()" />
+          }
+        }
+      </div>
+
+      @if (phase === 'summary') {
+        <div class="save-later">
+          <p-button label="Guardar y continuar después" icon="pi pi-save" [text]="true" [loading]="isSaving"
+                    (onClick)="saveAndExit()" />
+        </div>
+      }
+    }
+  }
+</p-dialog>
